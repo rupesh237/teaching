@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Data</title>
+</head>
+<body>
+
+  <h1>Add Courses</h1>
+
+  <form id="dataForm">
+
+    <label for="name"> Course Name:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="image">Image:</label><br>
+    <input type="text" id="image" name="image" required><br><br>
+    
+    <label for="image">Price:</label><br>
+    <input type="text" id="price" name="price" required><br><br>
+
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description"></textarea><br><br>
+
+        <label for="subjects">Subjects:</label><br>
+        <input type="text" id="subject1" name="subject1" placeholder="Subject 1"><br>
+        <input type="text" id="subject2" name="subject2" placeholder="Subject 2"><br>
+        <input type="text" id="subject3" name="subject3" placeholder="Subject 3"><br>
+        <input type="text" id="subject4" name="subject4" placeholder="Subject 4"><br>
+
+
+    <input type="submit" value="Submit">
+  </form>
+  <br>
+
+  <script>
+    const form = document.getElementById('dataForm');
+    const webAppUrl = 'https://script.google.com/macros/s/AKfycbzyP24qVftgHQBJxux5D-m9aqf-XnHICt6q97kb3jLC3rpXFfytbzQQJoMSRVm8Ngl4wQ/exec';  // Replace with your actual Web App URL
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      formData.append('action', 'submit');  // Include 'action=submit' in the request
+
+      fetch(webAppUrl, {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          alert('Data submitted successfully!');
+          form.reset();  // Reset the form after submission
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  </script>
+
+</body>
+</html>

@@ -915,7 +915,8 @@ h1, h2, h3, h4, h5,
     color: #fff; }
   .course-1-item .course-1-content {
     padding: 20px 40px;
-    text-align: center; }
+    /* text-align: center; */
+   }
     .course-1-item .course-1-content h2 {
       margin: 0 0 30px 0;
       font-size: 18px;

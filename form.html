@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Data</title>
+</head>
+<body>
+
+  <h1>Submit Data to Google Sheets</h1>
+
+  <form id="dataForm">
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="age">Age:</label><br>
+    <input type="number" id="age" name="age" required><br><br>
+
+    <label for="gender">Gender:</label><br>
+    <select id="gender" name="gender" required>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select><br><br>
+
+    <input type="submit" value="Submit">
+  </form>
+  <br>
+  <a href="data.html">ViewData</a>
+
+  <script>
+    const form = document.getElementById('dataForm');
+    const webAppUrl = 'https://script.google.com/macros/s/AKfycbzOpSfVgZdvxMR8pg9z7BhXLhmEsPShKv7toWsVMbk3xes2ao8-mk6Ie4VVhPjoPG0q/exec';  // Replace with your actual Web App URL
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      formData.append('action', 'submit');  // Include 'action=submit' in the request
+
+      fetch(webAppUrl, {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          alert('Data submitted successfully!');
+          form.reset();  // Reset the form after submission
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  </script>
+
+</body>
+</html>

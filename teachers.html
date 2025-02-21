@@ -60,69 +60,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-5">
-
-                        <div class="feature-1 border person text-center">
-                            <img src="images/person_1.jpg" alt="Image" class="img-fluid">
-                            <div class="feature-1-content">
-                                <h2>Rupesh Kumar Mandal</h2>
-                                <span class="position mb-3 d-block">Math Teacher</span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit morbi hendrerit elit</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-5">
-                        <div class="feature-1 border person text-center">
-                            <img src="images/person_2.jpg" alt="Image" class="img-fluid">
-                            <div class="feature-1-content">
-                                <h2>Tulsi Gautam</h2>
-                                <span class="position mb-3 d-block">Math Teacher</span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit morbi hendrerit elit</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-5">
-                        <div class="feature-1 border person text-center">
-                            <img src="images/person_3.jpg" alt="Image" class="img-fluid">
-                            <div class="feature-1-content">
-                                <h2>Bipana Bam</h2>
-                                <span class="position mb-3 d-block">Math Teacher</span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit morbi hendrerit elit</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-5">
-
-                        <div class="feature-1 border person text-center">
-                            <img src="images/person_4.jpg" alt="Image" class="img-fluid">
-                            <div class="feature-1-content">
-                                <h2>Seema Sen</h2>
-                                <span class="position mb-3 d-block">Math Teacher</span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit morbi hendrerit elit</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-5">
-                        <div class="feature-1 border person text-center">
-                            <img src="images/person_2.jpg" alt="Image" class="img-fluid">
-                            <div class="feature-1-content">
-                                <h2>Tulsi Gautam</h2>
-                                <span class="position mb-3 d-block">Math Teacher</span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit morbi hendrerit elit</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-5">
-                        <div class="feature-1 border person text-center">
-                            <img src="images/person_3.jpg" alt="Image" class="img-fluid">
-                            <div class="feature-1-content">
-                                <h2>Bipana Bam</h2>
-                                <span class="position mb-3 d-block">Math Teacher</span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit morbi hendrerit elit</p>
-                            </div>
-                        </div>
-                    </div>
+                      <div class="row" id="profileContainer"></div>
                 </div>
             </div>
         </div>
@@ -173,7 +111,48 @@
     <script src="js/jquery.sticky.js"></script>
     <script src="js/jquery.mb.YTPlayer.min.js"></script>
 
+      <script>
+    const profileContainer = document.getElementById('profileContainer');
+    const webAppUrl = 'https://script.google.com/macros/s/AKfycbwEIcSCajsY_9TM-wkSQ9dersYlXcPwKaqFchNu0J4m9Kf9tstvp_V1VijZvWitV-OpMQ/exec';
 
+    function fetchProfiles() {
+      const fetchData = new FormData();
+      fetchData.append('action', 'fetch'); // Change action if necessary
+
+      fetch(webAppUrl, {
+        method: 'POST',
+        body: fetchData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          displayProfiles(data.data);
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    }
+
+    function displayProfiles(data) {
+      profileContainer.innerHTML = '';
+      data.forEach(person => {
+        const profileCard = document.createElement('div');
+        profileCard.classList.add('col-lg-4', 'col-md-6', 'mb-5', 'mb-lg-5');
+        profileCard.innerHTML = `
+          <div class="feature-1 border person text-center">
+            <img src="${person.image}" alt="${person.name}" class="img-fluid">
+            <div class="feature-1-content">
+              <h2>${person.name}</h2>
+              <span class="position mb-3 d-block">${person.profession}</span>
+              <p>${person.description}</p>
+            </div>
+          </div>
+        `;
+        profileContainer.appendChild(profileCard);
+      });
+    }
+
+    window.onload = fetchProfiles;
+  </script>
 
 
     <script src="js/main.js"></script>
