@@ -55,7 +55,7 @@
           </div>
           <div class="col-lg-3 text-right">
             <a href="login.html" class="small mr-3"><span class="icon-unlock-alt"></span> Log In</a>
-            <a href="register.html" class="small btn btn-primary px-4 py-2 rounded-0"><span class="icon-users"></span> Register</a>
+            <!-- <a href="register.html" class="small btn btn-primary px-4 py-2 rounded-0"><span class="icon-users"></span> Register</a> -->
           </div>
         </div>
       </div>
@@ -137,23 +137,27 @@
 
 
             <div class="row justify-content-center">
-                <div class="col-md-5">
+              <form id="login-form " class="form-group align-self-center
+                <div class="col-md-5" >
                     <div class="row">
                         <div class="col-md-12 form-group">
                             <label for="username">Username</label>
-                            <input type="text" id="username" class="form-control form-control-lg">
+                            <input type="text" name="username" id="username" class="form-control form-control-lg">
                         </div>
                         <div class="col-md-12 form-group">
                             <label for="pword">Password</label>
-                            <input type="text" id="pword" class="form-control form-control-lg">
+                            <input type="text" name="password" id="password" class="form-control form-control-lg">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <input type="submit" value="Log In" class="btn btn-primary btn-lg px-5">
+                    <div class="col-md-12 form-group">
+                     <div class="row">
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-primary btn-lg px-5">Log In</button>
                         </div>
-                    </div>
+                     </div>
                 </div>
+                </div>
+                </form>
             </div>
             
 
@@ -245,6 +249,46 @@
 
 
   <script src="js/main.js"></script>
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyZmR-nh21g4Jsot0oIowN1SWv-akDYR_lYQ3Mgk8aiB0mUXm1KCyyD4Pf6l0uyWJl1/exec'; // Replace with your actual web app URL
+    const form = document.getElementById('login-form');
+    const loginButton = document.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Change button text to indicate loading
+        loginButton.textContent = 'Logging in...';
+        loginButton.disabled = true; // Disable button to prevent multiple clicks
+
+        const formData = new FormData(form);
+        formData.append('action', 'login');  // Ensure action is set for login
+
+        fetch(scriptURL, {
+            method: 'POST',
+            body: new URLSearchParams(formData),  // Convert FormData to URLSearchParams for x-www-form-urlencoded content type
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.status === 'success') {
+                localStorage.setItem('authToken', data.token);  // Store the token
+                window.location.href = 'admin.html';  // Redirect to another page
+            } else {
+                alert(data.message || 'Login failed. Please try again.'); // Simple alert on failure
+                loginButton.textContent = 'Log In'; // Reset button text
+                loginButton.disabled = false; // Re-enable button
+            }
+
+            form.reset();
+        })
+        .catch((error) => {
+            alert('An error occurred. Please try again later.');
+            console.error('Error!', error.message);
+            loginButton.textContent = 'Log In'; // Reset button text
+            loginButton.disabled = false; // Re-enable button
+        });
+    });
+</script>
 
 </body>
 
