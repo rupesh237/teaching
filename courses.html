@@ -50,7 +50,10 @@
           <div class="row align-items-end">
             <div class="col-lg-7">
               <h2 class="mb-0">Courses</h2>
-              <p>We offer a range of Courses from Education, Science and Management faculties.</p>
+              <p>
+                We offer a range of Courses from Education, Science and
+                Management faculties.
+              </p>
             </div>
           </div>
         </div>
@@ -66,12 +69,12 @@
 
       <div class="site-section">
         <div class="container">
-  <div class="row" id="courseContainer">
-    <div id="loadingIndicator" class="text-center w-100">
-      <h2 style="color: rgb(23, 187, 83);">Loading courses...</h2>
-    </div>
-  </div>
-</div>
+          <div class="row" id="courseContainer">
+            <div id="loadingIndicator" class="text-center w-100">
+              <h2 style="color: rgb(23, 187, 83)">Loading courses...</h2>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div
@@ -84,21 +87,33 @@
               <span class="icon flaticon-mortarboard"></span>
               <h3>Our Philoshopy</h3>
               <p>
-                At DB Institute, we believe that education is not just about acquiring knowledge but about developing a lifelong passion for learning. Our philosophy is centered around student growth, critical thinking, and real-world application of knowledge. We strive to create an inclusive and supportive environment.
+                At DB Institute, we believe that education is not just about
+                acquiring knowledge but about developing a lifelong passion for
+                learning. Our philosophy is centered around student growth,
+                critical thinking, and real-world application of knowledge. We
+                strive to create an inclusive and supportive environment.
               </p>
             </div>
             <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
               <span class="icon flaticon-school-material"></span>
-              <h3>Academics Principle</h3>
+              <h3>DB tution center Principle</h3>
               <p>
-                Our academic approach is built on a strong foundation of quality teaching, structured learning, and continuous assessment. We emphasize interactive and practical learning methods that help students grasp complex concepts easily. Our experienced faculty ensures that each student receives personalized attention.
+                Our academic approach is built on a strong foundation of quality
+                teaching, structured learning, and continuous assessment. We
+                emphasize interactive and practical learning methods that help
+                students grasp complex concepts easily. Our experienced faculty
+                ensures that each student receives personalized attention.
               </p>
             </div>
             <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
               <span class="icon flaticon-library"></span>
               <h3>Key of Success</h3>
               <p>
-                Success at DB Institute is achieved through a combination of expert guidance, student dedication, and a well-planned curriculum. We believe that consistency, discipline, and the right support system are essential in achieving academic and professional goals.
+                Success at DB Institute is achieved through a combination of
+                expert guidance, student dedication, and a well-planned
+                curriculum. We believe that consistency, discipline, and the
+                right support system are essential in achieving academic and
+                professional goals.
               </p>
             </div>
           </div>
@@ -152,40 +167,40 @@
 
     <script src="js/main.js"></script>
 
-<script>
-  const courseContainer = document.getElementById("courseContainer");
-  const loadingIndicator = document.getElementById("loadingIndicator");
-  const webAppUrl =
-    "https://script.google.com/macros/s/AKfycbzyP24qVftgHQBJxux5D-m9aqf-XnHICt6q97kb3jLC3rpXFfytbzQQJoMSRVm8Ngl4wQ/exec";
+    <script>
+      const courseContainer = document.getElementById("courseContainer");
+      const loadingIndicator = document.getElementById("loadingIndicator");
+      const webAppUrl =
+        "https://script.google.com/macros/s/AKfycbzyP24qVftgHQBJxux5D-m9aqf-XnHICt6q97kb3jLC3rpXFfytbzQQJoMSRVm8Ngl4wQ/exec";
 
-  function fetchCourses() {
-    loadingIndicator.style.display = "block"; // Show loading indicator
+      function fetchCourses() {
+        loadingIndicator.style.display = "block"; // Show loading indicator
 
-    const fetchData = new FormData();
-    fetchData.append("action", "fetch"); // Change action as per your script
+        const fetchData = new FormData();
+        fetchData.append("action", "fetch"); // Change action as per your script
 
-    fetch(webAppUrl, {
-      method: "POST",
-      body: fetchData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status === "success") {
-          displayCourses(data.data);
-        }
-      })
-      .catch((error) => console.error("Error:", error))
-      .finally(() => {
-        loadingIndicator.style.display = "none"; // Hide loading indicator
-      });
-  }
+        fetch(webAppUrl, {
+          method: "POST",
+          body: fetchData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "success") {
+              displayCourses(data.data);
+            }
+          })
+          .catch((error) => console.error("Error:", error))
+          .finally(() => {
+            loadingIndicator.style.display = "none"; // Hide loading indicator
+          });
+      }
 
-  function displayCourses(data) {
-    courseContainer.innerHTML = ""; // Clear existing content
-    data.forEach((course) => {
-      const courseCard = document.createElement("div");
-      courseCard.classList.add("col-lg-4", "col-md-6", "mb-4");
-      courseCard.innerHTML = `
+      function displayCourses(data) {
+        courseContainer.innerHTML = ""; // Clear existing content
+        data.forEach((course) => {
+          const courseCard = document.createElement("div");
+          courseCard.classList.add("col-lg-4", "col-md-6", "mb-4");
+          courseCard.innerHTML = `
         <div class="course-1-item">
           <figure class="thumnail">
             <a href="course-single.html"><img src="${course.image}" alt="${course.name}" class="img-fluid"></a>
@@ -204,11 +219,11 @@
           </div>
         </div>
       `;
-      courseContainer.appendChild(courseCard);
-    });
-  }
+          courseContainer.appendChild(courseCard);
+        });
+      }
 
-  window.onload = fetchCourses;
-</script>
+      window.onload = fetchCourses;
+    </script>
   </body>
 </html>
