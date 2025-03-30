@@ -16,6 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error(error));
     }
 
-    includeHTML('header.html', 'header');
+    // includeHTML('header.html', 'header');
     includeHTML('footer.html', 'footer');
 });

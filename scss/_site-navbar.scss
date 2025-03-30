@@ -201,7 +201,7 @@
 	
 	transform: translateX(110%);
 	box-shadow: -10px 0 20px -10px rgba(0,0,0,.1);
-	transition: .3s all ease-in-out;
+	transition: transform 0.3s ease-in-out;
 
 	.offcanvas-menu & {
 		transform: translateX(0%);

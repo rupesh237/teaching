@@ -6,53 +6,141 @@
     <meta name="keywords" content="tuition courses, school tuition, master level classes, programming courses, coding classes, language preparation, English coaching, DB tuition courses">
     <meta name="robots" content="index, follow">
 
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link
-      href="https://fonts.googleapis.com/css?family=Muli:300,400,700,900"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Muli:300,400,700,900" rel="stylesheet">
     <link rel="stylesheet" href="fonts/icomoon/style.css" />
     <link rel="icon" type="image/png" href="images/logo11.png">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="css/aos.css">
+    <link href="css/jquery.mb.YTPlayer.min.css" media="all" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/style.css">
 
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/jquery-ui.css" />
-    <link rel="stylesheet" href="css/owl.carousel.min.css" />
-    <link rel="stylesheet" href="css/owl.theme.default.min.css" />
-    <link rel="stylesheet" href="css/owl.theme.default.min.css" />
+    <style>
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%; /* Changed to right */
+            width: 80%;
+            height: 100%;
+            background: #fff;
+            z-index: 1001;
+            transition: 0.3s;
+            overflow-y: auto;
+        }
 
-    <link rel="stylesheet" href="css/jquery.fancybox.min.css" />
+        .mobile-nav.active {
+            right: 0; /* Changed to right */
+        }
 
-    <link rel="stylesheet" href="css/bootstrap-datepicker.css" />
+        .mobile-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
 
-    <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css" />
+        .mobile-nav li {
+            border-bottom: 1px solid #eee;
+        }
 
-    <link rel="stylesheet" href="css/aos.css" />
-    <link
-      href="css/jquery.mb.YTPlayer.min.css"
-      media="all"
-      rel="stylesheet"
-      type="text/css"
-    />
+        .mobile-nav a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: #333;
+        }
 
-    <link rel="stylesheet" href="css/style.css" />
+        .mobile-nav .close-btn {
+            padding: 10px;
+            text-align: right;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
   </head>
 
   <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
     <div class="site-wrap">
-      <!-- Floating WhatsApp Icon -->
-    <a href="https://wa.me/9842633343" target="_blank" 
-      style="position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; z-index: 1000;">
-      <img src="images/whatsapp.jpg" alt="WhatsApp" 
-        style="width: 100%; height: auto; border-radius: 10%; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); cursor: pointer;">
-    </a>
-      <!-- header will be included here -->
-      <div id="header"></div>
+       <a href="https://wa.me/9842633343" target="_blank" style="position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; z-index: 1000;">
+            <img src="images/whatsapp.jpg" alt="WhatsApp" style="width: 100%; height: auto; border-radius: 10%; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); cursor: pointer;">
+        </a>
 
+        <div class="mobile-nav">
+            <div class="close-btn">
+                <span class="icon-close2 mobile-nav-close"></span>
+            </div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="teachers.html">Our Teachers</a></li>
+                <li><a href="about.html">Our School</a></li>
+                <li><a href="enroll.html">Admissions</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="language.html">Languages</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="py-2 bg-light">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-9 d-none d-lg-block">
+                        <a href="#" class="small mr-3"><span class="icon-question-circle-o mr-2"></span> Have a questions?</a>
+                        <a href="#" class="small mr-3"><span class="icon-phone2 mr-2"></span>+9779842633343</a>
+                        <a href="#" class="small mr-3"><span class="icon-envelope-o mr-2"></span> dbtuitioncenter.com.np</a>
+                    </div>
+                    <div class="col-lg-3 text-right">
+                        <a href="login.html" class="small mr-3"><span class="icon-unlock-alt"></span> Log In</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <header class="site-navbar py-4 js-sticky-header site-navbar-target" role="banner">
+            <div class="container">
+                <div class="d-flex align-items-center">
+                    <div class="site-logo">
+                        <a href="index.html" class="d-block">
+                            <img src="images/logoo.png" alt="Logo" class="img-fluid" height="100px" width="100px">
+                        </a>
+                    </div>
+                    <div class="mr-auto">
+                        <nav class="site-navigation position-relative text-right" role="navigation">
+                            <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+                                <li><a href="index.html" class="nav-link text-left">Home</a></li>
+                                <li class="has-children">
+                                    <a href="about.html" class="nav-link text-left">About Us</a>
+                                    <ul class="dropdown">
+                                        <li><a href="teachers.html">Our Teachers</a></li>
+                                        <li><a href="about.html">Our School</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="enroll.html" class="nav-link text-left">Admissions</a></li>
+                                <li><a href="courses.html" class="nav-link text-left">Courses</a></li>
+                                <li><a href="language.html" class="nav-link text-left">Languages</a></li>
+                                <li><a href="contact.html" class="nav-link text-left">Contact</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="ml-auto">
+                        <div class="social-wrap">
+                            <a href="#"><span class="icon-facebook"></span></a>
+                            <a href="#"><span class="icon-twitter"></span></a>
+                            <a href="#"><span class="icon-linkedin"></span></a>
+                            <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black">
+                                <span class="icon-menu h3"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
       <div
         class="site-section ftco-subscribe-1 site-blocks-cover pb-4"
         style="background-image: url('images/bg_1.jpg')"
@@ -175,6 +263,29 @@
     <script src="js/jquery.fancybox.min.js"></script>
     <script src="js/jquery.sticky.js"></script>
     <script src="js/jquery.mb.YTPlayer.min.js"></script>
+
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuToggle = document.querySelector(".js-menu-toggle");
+            const mobileNav = document.querySelector(".mobile-nav");
+            const closeButton = document.querySelector(".mobile-nav-close");
+
+            menuToggle.addEventListener("click", function (event) {
+                event.preventDefault();
+                mobileNav.classList.add("active");
+            });
+
+            closeButton.addEventListener("click", function () {
+                mobileNav.classList.remove("active");
+            });
+
+            document.addEventListener("click", function (event) {
+                if (!mobileNav.contains(event.target) && !menuToggle.contains(event.target) && mobileNav.classList.contains('active')) {
+                    mobileNav.classList.remove("active");
+                }
+            });
+        });
+    </script>
 
     <script src="js/main.js"></script>
 
