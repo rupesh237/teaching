@@ -9,10 +9,40 @@
       border: 1px solid #ccc;
       padding: 10px;
       margin-top: 20px;
-      display: block;
+      position: relative;
     }
     .card-container {
       margin-top: 20px;
+    }
+    .actions {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+    .actions button {
+      margin-left: 5px;
+    }
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 300px;
+    }
+    .close {
+      float: right;
+      font-size: 24px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -21,13 +51,38 @@
   <h1>View Submitted Data</h1>
   <div id="cardContainer" class="card-container"></div>
 
+  <!-- Modal -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <h2>Edit Entry</h2>
+      <form id="editForm">
+        <input type="hidden" id="editRow">
+        <label for="editName">Name:</label><br>
+        <input type="text" id="editName" required><br><br>
+
+        <label for="editAge">Age:</label><br>
+        <input type="number" id="editAge" required><br><br>
+
+        <label for="editGender">Gender:</label><br>
+        <select id="editGender" required>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select><br><br>
+
+        <button type="submit">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
   <script>
     const cardContainer = document.getElementById('cardContainer');
-    const webAppUrl = 'https://script.google.com/macros/s/AKfycbzOpSfVgZdvxMR8pg9z7BhXLhmEsPShKv7toWsVMbk3xes2ao8-mk6Ie4VVhPjoPG0q/exec';  // Replace with your actual Web App URL
+    const webAppUrl = 'https://script.google.com/macros/s/AKfycbxCtNPcXTK81vL32nr1mG67RnM9lxPKfRuXmHtIHF1SRfOvpRJ8MfqSMZte3jOxq8tK/exec';
 
     function fetchAllData() {
       const fetchData = new FormData();
-      fetchData.append('action', 'fetch');  // Include 'action=fetch' to get all rows data
+      fetchData.append('action', 'fetch');
 
       fetch(webAppUrl, {
         method: 'POST',
@@ -43,10 +98,7 @@
     }
 
     function displayData(data) {
-      // Clear previous cards
       cardContainer.innerHTML = '';
-
-      // Loop through the data and create cards for each entry
       data.forEach(item => {
         const card = document.createElement('div');
         card.classList.add('card');
@@ -54,10 +106,80 @@
           <p><strong>Name:</strong> ${item.name}</p>
           <p><strong>Age:</strong> ${item.age}</p>
           <p><strong>Gender:</strong> ${item.gender}</p>
+          <div class="actions">
+            <button onclick="openEditModal(${item.row}, '${item.name}', ${item.age}, '${item.gender}')">✏️</button>
+            <button onclick="deleteEntry(${item.row})">🗑️</button>
+          </div>
         `;
         cardContainer.appendChild(card);
       });
     }
+
+    function deleteEntry(row) {
+      if (confirm('Are you sure you want to delete this entry?')) {
+        const deleteData = new FormData();
+        deleteData.append('action', 'delete');
+        deleteData.append('row', row);
+
+        fetch(webAppUrl, {
+          method: 'POST',
+          body: deleteData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            alert('Entry deleted successfully!');
+            fetchAllData();
+          }
+        })
+        .catch(error => console.error('Error:', error));
+      }
+    }
+
+    function openEditModal(row, name, age, gender) {
+      document.getElementById('editRow').value = row;
+      document.getElementById('editName').value = name;
+      document.getElementById('editAge').value = age;
+      document.getElementById('editGender').value = gender;
+
+      document.getElementById('editModal').style.display = 'block';
+    }
+
+    // Close Modal
+    document.getElementById('closeModal').onclick = function() {
+      document.getElementById('editModal').style.display = 'none';
+    };
+
+    window.onclick = function(event) {
+      if (event.target == document.getElementById('editModal')) {
+        document.getElementById('editModal').style.display = 'none';
+      }
+    };
+
+    // Handle Edit Form Submit
+    document.getElementById('editForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const updateData = new FormData();
+      updateData.append('action', 'update');
+      updateData.append('row', document.getElementById('editRow').value);
+      updateData.append('name', document.getElementById('editName').value);
+      updateData.append('age', document.getElementById('editAge').value);
+      updateData.append('gender', document.getElementById('editGender').value);
+
+      fetch(webAppUrl, {
+        method: 'POST',
+        body: updateData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          alert('Entry updated successfully!');
+          document.getElementById('editModal').style.display = 'none';
+          fetchAllData();
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    });
 
     // Fetch and display all data when the page loads
     window.onload = fetchAllData;

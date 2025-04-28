@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update User</title>
+</head>
+<body>
+
+<h1>Update User</h1>
+
+<form id="updateForm">
+  <label>Username:</label><br>
+  <input type="text" id="username" required><br><br>
+
+  <label>Email:</label><br>
+  <input type="email" id="email" required><br><br>
+
+  <label>Password:</label><br>
+  <input type="password" id="password" required><br><br>
+
+  <button type="submit">Update</button>
+</form>
+
+<script>
+  const webAppUrl = 'https://script.google.com/macros/s/AKfycbxxAJnkJE6_368kPbsKjSItQKOwHl41AuuyYjHVodUnwrpDewgVjYdcBHjOYAeVplsQ/exec'; // Replace
+
+  const id = localStorage.getItem('updateId');
+  document.getElementById('username').value = localStorage.getItem('updateUsername');
+  document.getElementById('email').value = localStorage.getItem('updateEmail');
+  document.getElementById('password').value = localStorage.getItem('updatePassword');
+
+  document.getElementById('updateForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('action', 'update');
+    formData.append('id', id);
+    formData.append('username', document.getElementById('username').value);
+    formData.append('email', document.getElementById('email').value);
+    formData.append('password', document.getElementById('password').value);
+
+    fetch(webAppUrl, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        alert('User updated successfully!');
+        window.location.href = 'data.html'; // Go back to user list
+      }
+    })
+    .catch(error => console.error('Error:', error));
+  });
+</script>
+
+</body>
+</html>

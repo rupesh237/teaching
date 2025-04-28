@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Prevent page scroll */
+    background-color: white;
+}
+
+.sidebar {
+    width: 250px;
+    background: #2c3e50;
+    color: white;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar h2 {
+    margin-bottom: 30px;
+}
+
+.sidebar button {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+    background: #34495e;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.sidebar button:hover {
+    background: #1abc9c;
+}
+
+#logoutButton {
+    margin-top: auto;
+    background-color: #f44336;
+}
+
+#logoutButton:hover {
+    background-color: #d32f2f;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Allow vertical scroll inside main-content */
+    padding: 30px;
+}
+
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* Submit Button Styling */
+#submit-btn {
+    background: #1abc9c;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    align-self: flex-start; /* Button at bottom-left */
+    margin-top: 20px;
+    transition: background 0.3s ease;
+}
+
+#submit-btn:hover {
+    background: #16a085;
+}
+
+/* Loading Spinner */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+
+.spinner {
+    border: 8px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 8px solid #333;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+
+
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Update Courses</h2>
+        <button onclick="window.location.href='/mycourses.html';">Back to Coursess</button>
+
+        <!-- Logout Button at the Bottom -->
+        <button id="logoutButton" class="logout-btn">Logout</button>
+    </div>
+    <div class="main-content">
+     <form id="updateForm">
+  <div class="form-fields">
+    <label>Course Name</label>
+    <input type="text" id="name" required>
+
+    <label>Image URL</label>
+    <input type="text" id="image" required>
+
+    <label>Price</label>
+    <input type="text" id="price" required>
+
+    <label>Description</label>
+    <textarea id="description" rows="4" required></textarea>
+
+    <label>Subject 1</label>
+    <input type="text" id="subject1">
+
+    <label>Subject 2</label>
+    <input type="text" id="subject2">
+
+    <label>Subject 3</label>
+    <input type="text" id="subject3">
+
+    <label>Subject 4</label>
+    <input type="text" id="subject4">
+  </div>
+
+  <button id="submit-btn" type="submit">Update Course</button>
+</form>
+
+    
+   <script>
+        // Check if the user is logged in by verifying the token in localStorage
+    document.addEventListener('DOMContentLoaded', function() {
+      const token = localStorage.getItem('authToken');
+      
+      // If no token exists, redirect to the login page
+      if (!token) {
+        window.location.href = 'login.html';  // Replace with your login page URL
+      } else {
+        fetchAllData();  // Fetch bookings data if token is present
+      }
+    });   
+   </script>
+
+  
+   <script>
+const webAppUrl = 'https://script.google.com/macros/s/AKfycbwMyIwxtRGgq4Xuw0OimIfhvOzMGJCTgZDj8qahvA1BV_MkeHwO_5fctDQtjFI6G1_XCQ/exec';
+const form = document.getElementById('updateForm');
+
+let courseId = localStorage.getItem('editCourseId');
+let courseData = JSON.parse(decodeURIComponent(localStorage.getItem('editCourseData')));
+
+// Pre-fill form fields
+document.getElementById('name').value = courseData.name;
+document.getElementById('image').value = courseData.image;
+document.getElementById('price').value = courseData.price;
+document.getElementById('description').value = courseData.description;
+document.getElementById('subject1').value = courseData.subject1;
+document.getElementById('subject2').value = courseData.subject2;
+document.getElementById('subject3').value = courseData.subject3;
+document.getElementById('subject4').value = courseData.subject4;
+
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const formData = new FormData();
+  formData.append('action', 'edit');
+  formData.append('id', courseId);
+  formData.append('name', document.getElementById('name').value);
+  formData.append('image', document.getElementById('image').value);
+  formData.append('price', document.getElementById('price').value);
+  formData.append('description', document.getElementById('description').value);
+  formData.append('subject1', document.getElementById('subject1').value);
+  formData.append('subject2', document.getElementById('subject2').value);
+  formData.append('subject3', document.getElementById('subject3').value);
+  formData.append('subject4', document.getElementById('subject4').value);
+
+  fetch(webAppUrl, {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.message);
+    // After update, go back to courses page
+    window.location.href = 'mycourses.html';
+  })
+  .catch(err => console.error('Error:', err));
+});
+</script>
+
+
+<script>
+    // Logout functionality
+    document.getElementById('logoutButton').addEventListener('click', function() {
+        localStorage.removeItem('authToken');  // Remove the token from localStorage
+        window.location.href = 'myteachers.html';  // Redirect to login page after logout
+    });
+</script>
+</body>
+</html>

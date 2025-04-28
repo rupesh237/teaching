@@ -162,9 +162,12 @@
 <body>
     <div class="sidebar">
         <h2>Admin Panel</h2>
+        <button onclick="window.location.href='/manageuser.html';">Manage Users</button>
+        <button onclick="window.location.href='/myteachers.html';">Manage Teachers</button>
+        <button onclick="window.location.href='/mycourses.html';">Manage Courses</button>
+        <button onclick="window.location.href='/mymessages.html';">Manage Messages</button>
         <button onclick="loadContent('addTeachers')">Add Teachers</button>
         <button onclick="loadContent('addCourses')">Add Courses</button>
-        <button onclick="loadContent('messages')">Messages</button>
         <!-- Logout Button at the Bottom -->
         <button id="logoutButton" class="logout-btn">Logout</button>
     </div>
@@ -190,7 +193,6 @@
     
         const webAppUrl1 = 'https://script.google.com/macros/s/AKfycbwEIcSCajsY_9TM-wkSQ9dersYlXcPwKaqFchNu0J4m9Kf9tstvp_V1VijZvWitV-OpMQ/exec'; // Replace with your own Web App URL
         const webAppUrl2 = 'https://script.google.com/macros/s/AKfycbzyP24qVftgHQBJxux5D-m9aqf-XnHICt6q97kb3jLC3rpXFfytbzQQJoMSRVm8Ngl4wQ/exec';
-        const webAppUrl3 = 'https://script.google.com/macros/s/AKfycbyyXoZJsM2TN32RpKbWcXxplAr3HPNqf-r7m--9VI-pBtQMqTBrPQxosMJ6FyT0JrlJ/exec';
 
         function loadContent(section) {
             const contentDiv = document.getElementById("content");
@@ -319,71 +321,9 @@
         });
     });
 }
-  
-    else if (section === "messages") {
-        contentDiv.innerHTML = `
-            <h2>Messages</h2>
-            <div id="loading" class="loading">
-                <div class="spinner"></div>
-            </div>
-            <div id="cardContainer" class="card-container" style="display: none;"></div>
-        `;
-
-        // Fetch messages from Google Sheets
-        fetchMessages();
-    }
-}
-
-function fetchMessages() {
-    const fetchData = new FormData();
-    fetchData.append('action', 'fetch');
-    fetchData.append('sheet', 'Messages'); // Specify that we're fetching from Messages
-
-    fetch(webAppUrl3, {
-        method: 'POST',
-        body: fetchData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            displayMessages(data.data);
-        } else {
-            document.getElementById('cardContainer').innerHTML = `<p>No messages found.</p>`;
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        document.getElementById('cardContainer').innerHTML = `<p>Error loading messages.</p>`;
-    })
-    .finally(() => {
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('cardContainer').style.display = 'grid';
-    });
-}
-
-function displayMessages(messages) {
-    const cardContainer = document.getElementById('cardContainer');
-    cardContainer.innerHTML = ""; // Clear existing content
-
-    if (messages.length === 0) {
-        cardContainer.innerHTML = `<p>No messages available.</p>`;
-        return;
-    }
-
-    messages.forEach(item => {
-        const card = document.createElement('div');
-        card.classList.add('card');
-        card.innerHTML = `
-            <p><strong>Name:</strong> ${item.name}</p>
-            <p><strong>Interested Course:</strong> ${item.interest}</p>
-            <p><strong>Email:</strong> ${item.email}</p>
-            <p><strong>Phone Number:</strong> ${item.phone}</p>
-            <p><strong>Message:</strong> ${item.message}</p>
-        `;
-        cardContainer.appendChild(card);
-    });
+     
 }  
-    </script>
+   </script>
 
 <script>
     // Logout functionality

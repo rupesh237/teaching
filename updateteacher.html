@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            height: 100vh;
+            background-color: white;
+        }
+        .sidebar {
+            width: 300px;
+            background: #2c3e50;
+            color: white;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .sidebar h2 {
+            margin-bottom: 20px;
+            
+
+        }
+        .sidebar button {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            cursor: pointer;
+            background: #34495e;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .sidebar button:hover {
+            background: #1abc9c;
+        }
+
+#logoutButton {
+    margin-top: auto; /* Pushes the button to the bottom */
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#logoutButton:hover {
+    background-color: #d32f2f;
+}
+        .main-content {
+            flex: 1;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .content-box {
+            background:white;
+            padding: 2px; /* Remove padding to ensure full coverage */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: 600px; /* Set a fixed height */
+            position: relative; /* Needed for absolute positioning of the image */
+            overflow: hidden; /* Prevents overflow if the image is larger */
+        }
+
+        #updateButton {
+            background: #1abc9c;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button.submit-btn {
+            background: #1abc9c;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: scale(1.01);
+}
+
+.card p {
+    margin: 10px 0;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+
+.spinner {
+    border: 8px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 8px solid #333;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Update Teachers</h2>
+        <button onclick="window.location.href='/myteachers.html';">Back to Teachers</button>
+
+        <!-- Logout Button at the Bottom -->
+        <button id="logoutButton" class="logout-btn">Logout</button>
+    </div>
+    <div class="main-content">
+        <div id="content" class="content-box">
+           <form id="updateForm">
+  <input type="text" id="name" placeholder="Name" required>
+  <input type="text" id="image" placeholder="Image URL" required>
+  <input type="text" id="profession" placeholder="Profession" required>
+  <textarea id="description" placeholder="Description" rows="4" required></textarea>
+  <button id="updateButton" type="submit">Update Teacher</button>
+</form>
+    </div>
+
+    </div>
+    
+   <script>
+        // Check if the user is logged in by verifying the token in localStorage
+    document.addEventListener('DOMContentLoaded', function() {
+      const token = localStorage.getItem('authToken');
+      
+      // If no token exists, redirect to the login page
+      if (!token) {
+        window.location.href = 'login.html';  // Replace with your login page URL
+      } else {
+        fetchAllData();  // Fetch bookings data if token is present
+      }
+    });   
+   </script>
+
+
+<script>
+const webAppUrl = 'https://script.google.com/macros/s/AKfycbw7OMPC6QOkRKVxj32wcKZCYdJMrvJd-uulfwDcJF3Q0l6U47QWVSbD5gbyyLv8Lrza7w/exec'; // your Web App URL
+
+const id = localStorage.getItem('editId');
+const nameField = document.getElementById('name');
+const imageField = document.getElementById('image');
+const professionField = document.getElementById('profession');
+const descriptionField = document.getElementById('description');
+
+// Populate form fields from localStorage
+window.onload = function() {
+  nameField.value = localStorage.getItem('editName') || '';
+  imageField.value = localStorage.getItem('editImage') || '';
+  professionField.value = localStorage.getItem('editProfession') || '';
+  descriptionField.value = localStorage.getItem('editDescription') || '';
+};
+
+document.getElementById('updateForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const formData = new FormData();
+  formData.append('action', 'update');
+  formData.append('id', id);
+  formData.append('name', nameField.value.trim());
+  formData.append('image', imageField.value.trim());
+  formData.append('profession', professionField.value.trim());
+  formData.append('description', descriptionField.value.trim());
+
+  fetch(webAppUrl, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'success') {
+      alert('Teacher updated successfully!');
+      window.location.href = 'myteachers.html'; // Go back to teacher list
+    } else {
+      alert('Failed to update teacher.');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Error updating teacher.');
+  });
+});
+</script>
+
+
+
+<script>
+    // Logout functionality
+    document.getElementById('logoutButton').addEventListener('click', function() {
+        localStorage.removeItem('authToken');  // Remove the token from localStorage
+        window.location.href = 'myteachers.html';  // Redirect to login page after logout
+    });
+</script>
+</body>
+</html>
